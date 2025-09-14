@@ -1,50 +1,60 @@
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { useState } from "react";
-import Homepage from "./components/Homepage";
-import { SignupModal } from "./components/SignupModal";
 
-// import , Routes, Route from "react-router-dom"
-import { Router, Routes, Route, BrowserRouter } from "react-router-dom";
-import ProtectedRoute from "./components/ProtectedRoute";
-import Overview from "./components/pages/Overview";
-import { Navigate } from "react-router-dom";
-import Heatmap from "./components/pages/Heatmaps";
-import Reports from "./components/pages/Reports";
+// Pages
+import Login from "./components/pages/Login.jsx";
+import Profile from "./components/pages/Profile.jsx";
+import Overview from "./components/pages/Overview.jsx";
+import UserManagement from "./components/pages/UserManagement.jsx";
+import IssuesReport from "./components/pages/IssuesReport.jsx";
+import SubmitIssuesForm from "./components/pages/SubmitIssuesForm.jsx";
 
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+// Layout
+import DashboardLayout from "./components/DashBoardLayout/DashboardLayout";
+
+function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLogin = (loginData) => {
+    setUser(loginData);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
 
   return (
     <>
-      {/* <Homepage /> */}
-<Overview/>
-<Reports/>
-<Heatmap/>
-      {/* <BrowserRouter>
-        {/* <Homepage /> }
+      <Router>
+        <Routes>
+          {/* Public Route */}
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
 
-        {/* <Router> }
-        <div className="flex min-h-screen bg-gray-100">
-          {isLoggedIn && <Sidebar />}
-          <div className="flex-1 p-6">
-            <Routes>
+          {/* Protected Dashboard Routes */}
+          {user ? (
+            <Route element={<DashboardLayout />}>
+              <Route path="/" element={<Navigate to="/overview" />} />
+              <Route path="/overview" element={<Overview />} />
+              <Route path="/reports" element={<IssuesReport />} />
+              <Route path="/users" element={<UserManagement />} />
+              <Route path="/report-issue" element={<SubmitIssuesForm />} />
               <Route
-                path="/signup"
-                element={<SignupModal onLogin={() => setIsLoggedIn(true)} />}
+                path="/profile"
+                element={<Profile user={user} onLogout={handleLogout} />}
               />
-              <Route element={<ProtectedRoute isLoggedIn={isLoggedIn} />}>
-                <Route path="/" element={<Homepage />} />
-                <Route path="/overview" element={<Overview />} />
-                <Route path="/heatmap" element={<Heatmap />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/departments" />
-                <Route path="/settings" />
-              </Route>
-              <Route path="*" element={<Navigate to="/login" />} />
-            </Routes>
-          </div>
-        </div>
-       
-      </BrowserRouter> */}
+            </Route>
+          ) : (
+            <Route path="*" element={<Navigate to="/login" />} />
+          )}
+        </Routes>
+      </Router>
     </>
   );
 }
+
+export default App;

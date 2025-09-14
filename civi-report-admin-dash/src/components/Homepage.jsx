@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Sidebar } from "./Sidebar";
-import { SignupModal } from "./SignupModal";
+// import { SignupModal } from "./SignupModal";
 import { useNavigate } from "react-router-dom";
 
 export function Homepage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activePage, setActivePage] = useState("Overview");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleMenuClick = (label) => {
     if (!isLoggedIn) {
       setPendingPage(label);
@@ -16,20 +16,20 @@ export function Homepage() {
       return;
     }
 
-    // navigate based on menu
-    switch (label) {
-      case "Overview":
-        navigate("/overview");
-        break;
-      case "Heatmap":
-        navigate("/heatmap");
-        break;
-      case "Reports":
-        navigate("/reports");
-        break;
-      default:
-        navigate("/");
-    }
+  //   // navigate based on menu
+  //   switch (label) {
+  //     case "Overview":
+  //       navigate("/overview");
+  //       break;
+  //     case "Heatmap":
+  //       navigate("/heatmap");
+  //       break;
+  //     case "Reports":
+  //       navigate("/reports");
+  //       break;
+  //     default:
+  //       navigate("/");
+  //   }
   };
 
   const handleLogin = () => {
@@ -53,7 +53,7 @@ export function Homepage() {
       <div className="flex min-h-screen w-full bg-gradient-to-b from-gray-50 to-white overflow-x-hidden ">
         {/* Sidebar */}
         {/* <Sidebar onMenuClick={() => setIsModalOpen(true)} /> */}
-        <Sidebar onMenuClick={(e) => handleMenuClick(e.target.innerText)} />
+        {/* <Sidebar onMenuClick={(e) => handleMenuClick(e.target.innerText)} /> */}
 
         {/* Main Content */}
         <div className="flex-1">
